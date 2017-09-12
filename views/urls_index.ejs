@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./partials/_header %>
+</head>
+<body>
+  <h1>URL List</h1>
+  <ul>
+    <% Object.keys(urls).forEach(function(key) { %>
+      <li><%= key %> - <%= urls[key] %></li>
+  <% }); %>
+  </ul>
+  
+  <a href="/urls/new">Click here to shorten your link!</a>
+</body>
+</html>

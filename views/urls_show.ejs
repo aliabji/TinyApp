@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./partials/_header %>
+</head>
+<body>
+  
+  <h1>Your shortened URL!</h1>
+  
+  <ul>
+      <li><%= shortURL %> - <%= longURL %> - <%= linkOut %></li>
+  </ul>
+  
+  <a href="<%= linkOut %>">CLick here to go to your new link!</a>
+</body>
+</html>
