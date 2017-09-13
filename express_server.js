@@ -30,13 +30,15 @@ function generateRandomString() {
 
 //Home, link index
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = { urls: urlDatabase,
+  username: req.cookies["username"]};
   res.render("urls_index", templateVars);
 });
 
 //Page for reating a new shortened link
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  let templateVars = { username: req.cookies["username"] }
+  res.render("urls_new", templateVars);
 });
 
 //Redirect to full version of shortened link
@@ -51,6 +53,7 @@ app.get("/urls/:id", (req, res) => {
     shortURL: req.params.id,
     longURL: urlDatabase[req.params.id],
     linkOut: "/u/" + req.params.id,
+    username: req.cookies["username"]
   };
 
   res.render("urls_show", templateVars);
@@ -76,11 +79,10 @@ app.post("/urls/:id/modify", (req, res) => {
   res.redirect("/urls/")
 });
 
+
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
-  let username = req.body.username;
-  console.log(req.cookies["username"]);
-  console.log(username);
+  res.cookie("username", req.body.name);
+  console.log(req.body.name);
   res.redirect("/urls/")
 });
 
@@ -88,4 +90,3 @@ app.post("/login", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-
