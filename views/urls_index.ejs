@@ -6,15 +6,19 @@
 <body>
   <h1>URL List</h1>
   <ul>
-      <% Object.keys(urls).forEach(function(key) { %>
-      <li><%= key %> - <%= urls[key] %> - 
-        <form method="POST" action="/urls/<%= key %>/delete">
-          <label for="/urls/<%= urls %>/delete">Delete URL from list - </label>
-          <input type="submit" value="Delete"></li></form>
-        <form action="/urls/<%= key %>/modify" method="POST" padding: 10 px>
-          <label for="long">Modify your URL:</label>
-          <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 300px">
-          <input type="submit" value="Submit"></form>
+    <% Object.keys(urls).forEach(function(key) { %>
+    <li><%= key %> - <%= urls[key] %> - 
+        
+    <form method="POST" action="/urls/<%= key %>/delete">
+      <label for="/urls/<%= urls %>/delete">Delete URL from list - </label>
+      <input type="submit" value="Delete"></li>
+    </form>
+        
+    <form action="/urls/<%= key %>/modify" method="POST" padding: 10 px>
+      <label for="long">Modify your URL:</label>
+      <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 300px">
+      <input type="submit" value="Submit">
+    </form>
   <% }); %>
   </ul>
   <a href="/urls/new">Click here to shorten your link!</a>
