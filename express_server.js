@@ -7,7 +7,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
 
-var shortU = ""
 //Storing URL's
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -16,6 +15,7 @@ var urlDatabase = {
 
 //Create short link
 function generateRandomString() {
+  var shortU = ""
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
   for (var i = 0; i < 6; i++) {
@@ -31,7 +31,7 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-//Creating a new shortened link
+//Page for reating a new shortened link
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
@@ -58,12 +58,20 @@ app.post("/urls", (req, res) => {
   let assign = generateRandomString();
   urlDatabase[assign] = req.body.longURL;
   res.redirect("/urls/" + assign)
+  assign = ""
 });
 
+//deleting key/value pair from db
 app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[req.params.id]
   res.redirect("/urls/")
 });
+
+//modifying longURL in database
+app.post("/urls/:id/modify", (req, res) => {
+  urlDatabase[req.params.id] = req.body.long
+  res.redirect("/urls/")
+})
 
 //port
 app.listen(PORT, () => {

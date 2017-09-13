@@ -11,6 +11,11 @@
       <li><%= shortURL %> - <%= longURL %></li>
   </ul>
   
+  <form action="/urls/<%= shortURL %>/modify" method="POST" style="margin:150px;">
+    <label for="long">Modify your URL:</label>
+    <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 300px">
+    <input type="submit" value="Submit"></form>
+
   <div>
       <a href="<%= linkOut %>">CLick here to go to your new link!</a>
   </div>
