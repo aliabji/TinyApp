@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <% include ./partials/_header %>
 </head>
 <body>
-  <h1>URL List</h1>
-  <ul>
+  <div class="container">
+  <h1 class="text-center">URL List</h1>
+  <ul class="text-center", style="list-style: none;", margin: 0 0 3px 0>
     <% Object.keys(urls).forEach(function(key) { %>
-    <li><%= key %> - <%= urls[key] %> - 
-        
+    <li><b><%= key %> - <%= urls[key] %> -</b> 
+    
     <form method="POST" action="/urls/<%= key %>/delete">
       <label for="/urls/<%= urls %>/delete">Delete URL from list - </label>
       <input type="submit" value="Delete"></li>
     </form>
-        
-    <form action="/urls/<%= key %>/modify" method="POST" padding: 10 px>
+
+    <form action="/urls/<%= key %>/modify" method="POST">
       <label for="long">Modify your URL:</label>
-      <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 300px">
+      <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 200px">
       <input type="submit" value="Submit">
     </form>
   <% }); %>
   </ul>
-  <a href="/urls/new">Click here to shorten your link!</a>
+</div>
+  <div class="container">
+    <h4 class="text-center"><a href="/urls/new">Click here to shorten your link!</a></h4>
+  </div>
+ 
 </body>
 </html>
