@@ -26,7 +26,7 @@ function generateRandomString() {
 
 
 //Home, link index
-app.get("/", (req, res) => {
+app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
@@ -58,6 +58,11 @@ app.post("/urls", (req, res) => {
   let assign = generateRandomString();
   urlDatabase[assign] = req.body.longURL;
   res.redirect("/urls/" + assign)
+});
+
+app.post("/urls/:id/delete", (req, res) => {
+  delete urlDatabase[req.params.id]
+  res.redirect("/urls/")
 });
 
 //port
