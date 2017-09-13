@@ -7,14 +7,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
 
+var shortU = ""
+//Storing URL's
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
 
-let shortU = "";
-let parsed = "";
-
+//Create short link
 function generateRandomString() {
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -22,32 +22,27 @@ function generateRandomString() {
     shortU += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return shortU;
-}
+};
 
-//app.get("/", (req, res) => {
-//  res.end("Hello!");
-//});
 
-//app.get("/urls", (req, res) => {
-//  res.json(urlDatabase);        
-//});
-
+//Home, link index
 app.get("/", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
 
+//Creating a new shortened link
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
+//Redirect to full version of shortened link
 app.get("/u/:shortURL", (req, res) => {
-  console.log(req.params.shortURL, "/u/shortURL");
-  console.log(urlDatabase, "before redirect")
   let longURL = urlDatabase[req.params.shortURL]
   res.redirect(longURL);
 });
 
+//Display page with shortened link 
 app.get("/urls/:id", (req, res) => {
   let templateVars = { 
     shortURL: req.params.id,
@@ -58,20 +53,14 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-app.get("/hello", (req, res) => {
-  res.end("<html><body>Hello <b>World</b></body></html>\n");
-});
-
-
-
+//User inputs new link, updates database
 app.post("/urls", (req, res) => {
   let assign = generateRandomString();
-  console.log(urlDatabase, "Before")
   urlDatabase[assign] = req.body.longURL;
-  console.log(urlDatabase, "AFTER")
   res.redirect("/urls/" + assign)
 });
 
+//port
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
