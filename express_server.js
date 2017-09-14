@@ -55,6 +55,11 @@ app.get("/urls", (req, res) => {
 
 //Page for reating a new shortened link
 app.get("/urls/new", (req, res) => {
+  if (!req.cookies.id) {
+    res.redirect("/urls")
+    return
+  }
+  
   let templateVars = { user_id: req.cookies["id"],
     user_email: req.cookies["email"],
     user_password: req.cookies["password"] }
