@@ -7,6 +7,7 @@
 <body>
   <div class="container">
   <h1 class="text-center">URL List</h1>
+  
   <ul class="text-center", style="list-style: none;", margin: 0 0 3px 0>
     <% Object.keys(urls).forEach(function(key) { %>
     <li><b><%= key %> - <%= urls[key] %> -</b> 
@@ -27,6 +28,5 @@
   <div class="container">
     <h4 class="text-center"><a href="/urls/new">Click here to shorten your link!</a></h4>
   </div>
- 
 </body>
 </html>
