@@ -109,22 +109,31 @@ app.post("/urls", (req, res) => {
 
   urlDatabase[assign] = tempObject
 
-  
-  console.log(urlDatabase)
   res.redirect("/urls/" + assign);
   assign = "";
 });
 
 //deleting key/value pair from db
 app.post("/urls/:id/delete", (req, res) => {
-  delete urlDatabase[req.params.id];
-  res.redirect("/urls/");
+  let short = urlDatabase[req.params.id]
+  if (req.cookies["id"] === short.uniqueId) {
+    delete urlDatabase[req.params.id]; 
+    res.redirect("/urls/"); 
+    return
+  };
+  res.status(403).send("You must be the creator to modify or delete links")  
 });
 
 //modifying longURL in database
 app.post("/urls/:id/modify", (req, res) => {
-  urlDatabase[req.params.id].url = req.body.long
-  res.redirect("/urls/");
+  let short = urlDatabase[req.params.id]
+  let long = urlDatabase[req.params.id]
+  if (req.cookies["id"] === short.uniqueId) {
+    long.url = req.body.long
+    res.redirect("/urls/");
+    return
+  };
+  res.status(403).send("You must be the creator to modify or delete links")
 });
 
 //login page
@@ -143,7 +152,6 @@ app.post("/login", (req, res) => {
     };
   };
   res.status(403).send("Invalid email/password combination")
-
 });
 
 //adding user credentials, if either field not filled out prperly or email already exists, error code is returned
@@ -151,11 +159,13 @@ app.post("/register", (req, res) => {
 
   if (!req.body.email || !req.body.password) {
     res.status(400).send("Either the email or password field was empty. Please try again.")
+    return
   };
 
   for (var i in users) {
     if (req.body.email == users[i].email) {
       res.status(400).send("Email exists already")
+      return
     };
   };
   let newID = generateRandomString(4)
