@@ -10,7 +10,7 @@
   
   <ul class="text-center", style="list-style: none;", margin: 0 0 3px 0>
     <% Object.keys(urls).forEach(function(key) { %>
-    <li><b><%= key %> - <%= urls[key] %> -</b> 
+    <li><b><%= key %> - <%= urls[key].url %> -</b> 
     
     <form method="POST" action="/urls/<%= key %>/delete">
       <label for="/urls/<%= urls %>/delete">Delete URL from list - </label>

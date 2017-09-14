@@ -12,8 +12,16 @@ app.set("view engine", "ejs");
 
 //Storing URL's
 let urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {
+    id: "b2xVn2",
+    url: "http://www.lighthouselabs.ca",
+    uniqueId: "t7E2"
+  },
+  "9sm5xK": {
+    id: "9sm5xK",
+    url: "http://www.google.com",
+    uniqueId: "uR69"
+  }
 };
 
 //url database
@@ -43,20 +51,17 @@ function generateRandomString(number) {
 
 //Home, link index
 app.get("/urls", (req, res) => {
-  let id = req.cookies["id"];
-  let email = req.cookies["email"];
-  let password = req.cookies["password"];
   let templateVars = { urls: urlDatabase,
-    user_id: id,
-    user_email: email,
-    user_password: password };
+    user_id: req.cookies["id"],
+    user_email: req.cookies["email"],
+    user_password: req.cookies["password"] };
   res.render("urls_index", templateVars);
 });
 
 //Page for reating a new shortened link
 app.get("/urls/new", (req, res) => {
   if (!req.cookies.id) {
-    res.redirect("/urls")
+    res.redirect("/urls/login")
     return
   }
   
@@ -77,28 +82,35 @@ app.get("/urls/login", (req,res) => {
 
 //Redirect to full version of shortened link
 app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL]
+  let longURL = urlDatabase[req.params.shortURL].url
   res.redirect(longURL);
 });
 
 //Display page with shortened link 
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { 
-    shortURL: req.params.id,
-    longURL: urlDatabase[req.params.id],
-    linkOut: "/u/" + req.params.id,
-    user_id: req.cookies["id"],
-    user_email: req.cookies["email"],
-    user_password: req.cookies["password"]
+  let templateVars = { url: urlDatabase[req.params.id], 
+    user_id: users[req.cookies['id']],
+    linkOut: "/u/" + req.params.id
   };
-
   res.render("urls_show", templateVars);
 });
 
+//===================================================================//
+
+
 //User inputs new link, updates database
 app.post("/urls", (req, res) => {
+  let tempObject = {}
   let assign = generateRandomString(6);
-  urlDatabase[assign] = req.body.longURL;
+
+  tempObject.id = assign
+  tempObject.url = req.body.longURL;
+  tempObject.uniqueId = req.cookies["id"]
+
+  urlDatabase[assign] = tempObject
+
+  
+  console.log(urlDatabase)
   res.redirect("/urls/" + assign);
   assign = "";
 });
@@ -111,7 +123,7 @@ app.post("/urls/:id/delete", (req, res) => {
 
 //modifying longURL in database
 app.post("/urls/:id/modify", (req, res) => {
-  urlDatabase[req.params.id] = req.body.long
+  urlDatabase[req.params.id].url = req.body.long
   res.redirect("/urls/");
 });
 

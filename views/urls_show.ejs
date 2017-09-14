@@ -3,17 +3,17 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-  <% include ./partials/_header %>
+  <% include partials/_header %>
 </head>
 <body>
 
   <h1>Your shortened URL!</h1>
   
   <ul>
-    <li><%= shortURL %> - <%= longURL %></li>
+    <li><%= url.id %> - <%= url.url %></li>
   </ul>
   <!-- Modifying url -->
-  <form action="/urls/<%= shortURL %>/modify" method="POST" style="margin:150px;">
+  <form action="/urls/<%= url.id %>/modify" method="POST" style="margin:150px;">
     <label for="long">Modify your URL:</label>
     <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 300px">
     <input type="submit" value="Submit">
