@@ -6,20 +6,10 @@
 </head>
 <body>
 
-<p>Click the button if you do not see any URLS.</p>
-
-<button onclick="myFunction()">Click here if you do not see any URLS</button>
-
-<script>
-function myFunction() {
-    confirm("You must be logged in to see the URL list!!");
-}
-</script>
-
   <div class="container">
 
     <% if (!user_id) { %>
-    <h1>Please log in to see links</h1>
+    <h1 class="text-center">Please log in to see links</h1>
     <% } else { %>
       
 
