@@ -5,7 +5,24 @@
   <% include ./partials/_header %>
 </head>
 <body>
+
+<p>Click the button if you do not see any URLS.</p>
+
+<button onclick="myFunction()">Click here if you do not see any URLS</button>
+
+<script>
+function myFunction() {
+    confirm("You must be logged in to see the URL list!!");
+}
+</script>
+
   <div class="container">
+
+    <% if (!user_id) { %>
+    <h1>Please log in to see links</h1>
+    <% } else { %>
+      
+
   <h1 class="text-center">URL List</h1>
   
   <ul class="text-center", style="list-style: none;", margin: 0 0 3px 0>
@@ -23,6 +40,7 @@
       <input type="submit" value="Submit">
     </form>
   <% }); %>
+  <% } %>
   </ul>
 </div>
   <div class="container">

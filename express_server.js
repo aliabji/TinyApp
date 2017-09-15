@@ -50,13 +50,22 @@ function generateRandomString(number) {
 };
 
 //Home, link index
-app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase,
-    user_id: req.cookies["id"],
-    user_email: req.cookies["email"],
-    user_password: req.cookies["password"] };
-  res.render("urls_index", templateVars);
-});
+
+  function urlsForUser(id) {
+    let urlDatabaseForUser = {};
+    for (let i in urlDatabase) {
+      if (urlDatabase[i].uniqueId === id) {
+        urlDatabaseForUser[i] = urlDatabase[i];
+      }
+    }
+    return urlDatabaseForUser;
+  }
+
+  app.get("/urls", (req, res) => {
+    let templateVars = { urls: urlsForUser(req.cookies["id"]), user_id: req.cookies["id"]};
+    res.render("urls_index", templateVars);
+  });
+
 
 //Page for reating a new shortened link
 app.get("/urls/new", (req, res) => {
