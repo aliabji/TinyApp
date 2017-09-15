@@ -9,22 +9,22 @@
   <div class="container">
 
     <% if (!user_id) { %>
-    <h1 class="text-center">Please log in to see links</h1>
+    <h1 class="text-center"; style="padding:50px">Please log in to see links</h1>
     <% } else { %>
       
 
-  <h1 class="text-center">URL List</h1>
+  <h1 class="text-center"; style="padding:50px 50px 50px 50px">URL List</h1>
   
-  <ul class="text-center", style="list-style: none;", margin: 0 0 3px 0>
+  <ul class="text-center", style="list-style: none;">
     <% Object.keys(urls).forEach(function(key) { %>
-    <li><b><%= key %> - <%= urls[key].url %> -</b> 
+    <li style="padding:0 35px 0 0"><b><%= key %> - <%= urls[key].url %></b> 
     
-    <form method="POST" action="/urls/<%= key %>/delete">
-      <label for="/urls/<%= urls %>/delete">Delete URL from list - </label>
+    <form method="POST" style="padding:0 0 0 0" action="/urls/<%= key %>/delete">
+      <label for="/urls/<%= urls %>/delete">Delete URL from list</label>
       <input type="submit" value="Delete"></li>
     </form>
 
-    <form action="/urls/<%= key %>/modify" method="POST">
+    <form action="/urls/<%= key %>/modify" method="POST" style="padding:8px 0 0 0">
       <label for="long">Modify your URL:</label>
       <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 200px">
       <input type="submit" value="Submit">
@@ -34,8 +34,7 @@
   </ul>
 </div>
   <div class="container">
-    <h4 class="text-center"><a href="/urls/new">Click here to shorten your link!</a></h4>
-    <h5 class="text-center">Note: You must be logged in to shorten, modify or delete links</h2>
+    <h4 class="text-center" style="padding: 10px 0px 0px 0px"><a href="/urls/new">Click here to shorten your link!</a></h4>
   </div>
 </body>
 </html>

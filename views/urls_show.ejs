@@ -6,27 +6,30 @@
   <% include partials/_header %>
 </head>
 <body>
-
-  <h1>Your shortened URL!</h1>
+<div class="container">
+  <h2 class="text-center">Your shortened URL!</h2>
   
-  <ul>
+  <ul class="text-center" style="list-style: none;">
     <li><%= url.id %> - <%= url.url %></li>
   </ul>
   <!-- Modifying url -->
-  <form action="/urls/<%= url.id %>/modify" method="POST" style="margin:150px;">
+  <form action="/urls/<%= url.id %>/modify" method="POST" class="text-center" padding-top="50px">
     <label for="long">Modify your URL:</label>
     <input id="long" type="text" name="long" value="http://" placeholder="http://" style="width: 300px">
     <input type="submit" value="Submit">
   </form>
 
+</div>
+<div class="center">
   <!-- Redirect to shortened link -->
   <div>
-    <a href="<%= linkOut %>">Click here to go to your new link!</a>
+    <h4 class="text-center"><a href="<%= linkOut %>">Click here to go to your new link!</a></h4>
   </div>
 
   <!-- Back to URL list -->
   <div>
-    <a href="<%= /urls/ %>">Click here to return to the URL list.</a>
+    <h4 class="text-center"><a href="<%= /urls/ %>">Click here to return to the URL list!</a></h4>
   </div>
+</div>
 </body>
 </html>
