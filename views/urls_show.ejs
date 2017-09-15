@@ -10,7 +10,7 @@
   <h2 class="text-center">Your shortened URL!</h2>
   
   <ul class="text-center" style="list-style: none;">
-    <li><%= url.id %> - <%= url.url %></li>
+    <li><h4><%= url.id %> - <%= url.url %></h4></li>
   </ul>
   <!-- Modifying url -->
   <form action="/urls/<%= url.id %>/modify" method="POST" class="text-center" padding-top="50px">

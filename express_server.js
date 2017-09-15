@@ -1,3 +1,4 @@
+//setting modules
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8080; // default port 8080
@@ -16,7 +17,7 @@ const saltRounds = 10;
 
 app.set("view engine", "ejs");
 
-//Storing URL's
+//Storing URL's and their ID's
 let urlDatabase = {
   "b2xVn2": {
     id: "b2xVn2",
@@ -30,7 +31,7 @@ let urlDatabase = {
   }
 };
 
-//url database
+//url database with hashed passwords, users listed below are for template purpose, no pw and no valid login
 let users = {
   "t7E2": {
     id: "t7E2",
@@ -44,7 +45,7 @@ let users = {
   }
 };
 
-//Create short string of characters
+//Create short string of characters for both the shortURL's and the user unique ID
 function generateRandomString(number) {
   let shortU = "";
   let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -77,11 +78,11 @@ function urlsForUser(id) {
 app.get("/urls/new", (req, res) => {
   if (!req.session.id) {
     res.redirect("/urls/login")
-    return
+    return;
   };
   
   let templateVars = { user_id: req.session.id
-   }
+   };
   res.render("urls_new", templateVars);
 });
 
@@ -96,7 +97,7 @@ app.get("/urls/login", (req,res) => {
 
 //Redirect to full version of shortened link
 app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL].url
+  let longURL = urlDatabase[req.params.shortURL].url;
   res.redirect(longURL);
 });
 
@@ -113,14 +114,14 @@ app.get("/urls/:id", (req, res) => {
 
 //User inputs new link, updates database
 app.post("/urls", (req, res) => {
-  let tempObject = {}
+  let tempObject = {};
   let assign = generateRandomString(6);
 
-  tempObject.id = assign
+  tempObject.id = assign;
   tempObject.url = req.body.longURL;
-  tempObject.uniqueId = req.session.id
+  tempObject.uniqueId = req.session.id;
 
-  urlDatabase[assign] = tempObject
+  urlDatabase[assign] = tempObject;
 
   res.redirect("/urls/" + assign);
   assign = "";
@@ -128,43 +129,43 @@ app.post("/urls", (req, res) => {
 
 //deleting key/value pair from db
 app.post("/urls/:id/delete", (req, res) => {
-  let short = urlDatabase[req.params.id]
+  let short = urlDatabase[req.params.id];
   if (req.session.id === short.uniqueId) {
     delete urlDatabase[req.params.id]; 
     res.redirect("/urls/"); 
-    return
+    return;
   };
-  res.status(403).send("You must be the creator to modify or delete links")  
+  res.status(403).send("You must be the creator to modify or delete links");
 });
 
 //modifying longURL in database
 app.post("/urls/:id/modify", (req, res) => {
-  let short = urlDatabase[req.params.id]
-  let long = urlDatabase[req.params.id]
+  let short = urlDatabase[req.params.id];
+  let long = urlDatabase[req.params.id];
   if (req.session.id === short.uniqueId) {
     long.url = req.body.long
     res.redirect("/urls/");
-    return
+    return;
   };
-  res.status(403).send("You must be the creator to modify or delete links")
+  res.status(403).send("You must be the creator to modify or delete links");
 });
 
 //login page
 app.post("/login", (req, res) => {
   const email = req.body.email;
-  const password = req.body.password
+  const password = req.body.password;
 
-  //user verification
+  //user verification with hashed passwords
   for (i in users) {
-    if (users[i].email === email) {
+    if (users[i].email.toLowerCase() === email.toLowerCase()) {
       if (bcrypt.compareSync(password, users[i].hashedPassword)) {
         req.session.id = users[i].id
         res.redirect("/urls/");
-        return 
+        return ;
       };
     };
   };
-  res.status(403).send("Invalid email/password combination")
+  res.status(403).send("Invalid email/password combination");
 });
 
 //adding user credentials, if either field not filled out prperly or email already exists, error code is returned
@@ -172,20 +173,20 @@ app.post("/register", (req, res) => {
 
   if (!req.body.email || !req.body.password) {
     res.status(400).send("Either the email or password field was empty. Please try again.")
-    return
+    return;
   };
 
   for (var i in users) {
-    if (req.body.email == users[i].email) {
-      res.status(400).send("Email exists already")
-      return
+    if (req.body.email.toLowerCase() == users[i].email.toLowerCase()) {
+      res.status(400).send("Email exists already");
+      return;
     };
   };
-  let newID = generateRandomString(4)
+  let newID = generateRandomString(4);
   req.session.id = newID;
 
-  let password = req.body.password
-  let hashedPassword = bcrypt.hashSync(password, 10)
+  let password = req.body.password;
+  let hashedPassword = bcrypt.hashSync(password, 10);
 
   //updating the user DB with new registration credentials
   users[newID] = {

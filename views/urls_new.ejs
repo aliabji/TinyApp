@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <% include ./partials/_header %>
-  </head>
-  <body style="font-size:20px; padding:20px;">
-    <form action="/urls" method="POST" style="margin:75px;">
-      <label for="longURL">Enter a URL:</label>
-      <input id="longURL" type="text" name="longURL" value="http://" placeholder="http://" style="width: 300px">
+  <% include ./partials/_header %>
+
+</head>
+  <body>
+    <form action="/urls" method="POST" style="margin:75px;" class="text-center">
+      <label for="longURL"><h3>Enter a URL</h3></label><br>
+      <input id="longURL" type="text" name="longURL" value="http://" placeholder="http://" style="width: 300px"><br><br>
       <input type="submit" value="Submit">
     </form>
   </body>
